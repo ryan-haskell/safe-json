@@ -1,6 +1,8 @@
 # ryannhg/safe-json
 > Safely handle unknown JSON in Typescript
 
+![jest](https://github.com/ryannhg/safe-json/workflows/jest/badge.svg)
+
 ## installation
 
 ```
