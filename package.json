@@ -1,0 +1,36 @@
+{
+  "name": "@ryannhg/safe-json",
+  "version": "0.1.0",
+  "description": "Safely handle unknown JSON in Typescript",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "start": "npm install && npm run dev",
+    "build": "tsc",
+    "test": "jest",
+    "dev": "jest --watchAll",
+    "prepublish": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryannhg/safe-json.git"
+  },
+  "keywords": [
+    "typescript",
+    "json",
+    "validate",
+    "expect"
+  ],
+  "author": "Ryan Haskell-Glatz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ryannhg/safe-json/issues"
+  },
+  "homepage": "https://github.com/ryannhg/safe-json#readme",
+  "devDependencies": {
+    "@types/jest": "26.0.13",
+    "jest": "26.4.2",
+    "ts-jest": "26.3.0",
+    "typescript": "4.0.2"
+  }
+}
