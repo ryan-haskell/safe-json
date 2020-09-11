@@ -9,7 +9,9 @@ npm install @ryannhg/safe-json
 
 ## the problem
 
-When a rando sends us data from the internet, we don't know what to expect! In Typescript, its common to handle this uncertainty with the `any` keyword. For example, [Express does this for `req.body`](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/74bd5ff6c586d89acaec4331e02b895a199da0fc/types/express/index.d.ts#L108), which leads to _one_ minor issue... it breaks our entire type system!
+When our applications receive data from randos on the internet, we don't know what to expect! With Typescript, the easiest way to handle this uncertainty is by using the `any` keyword. For example, [Express does this for `req.body`](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/74bd5ff6c586d89acaec4331e02b895a199da0fc/types/express/index.d.ts#L108). 
+
+This leads to _one_ minor issue... it breaks our entire type system!
 
 ```ts
 const increment = (a: number) => a + 1
@@ -20,13 +22,13 @@ const value = increment(data.counter)
 console.log(value) // "21"
 ```
 
-That `any` type broke the safety of my `increment` function!
+That `any` type broke the safety of our `increment` function! 
 
 __What's even worse?__ TypeScript thinks `value` is a `number` now! _Ah!_ It's like we're just using JS again!! 
 
-What should we do instead?
-
 ## an ideal solution
+
+What should we do instead?
 
 The unknown JSON from before should really be treated as an `unknown`. [The unknown type](https://www.typescriptlang.org/docs/handbook/basic-types.html#unknown) reminds us to check our JSON before passing it around, so it won't break everything like a sneaky snek! 🐍
 
@@ -48,7 +50,7 @@ Unfortunately, working with `unknown` values is a pain. Proving that `data` is a
 This is where a smaller library can save us a lot of headache. 
 
 ```ts
-import Expect from '@ryannhg/safe-json'
+import { Expect, Validator } from '@ryannhg/safe-json'
 
 const increment = (a: number) => a + 1
 
@@ -217,3 +219,107 @@ maybeNumber.worksWith(null)       // ✅ (undefined)
 maybeNumber.worksWith(undefined)  // ✅ (undefined)
 maybeNumber.worksWith(true)       // ✅ (undefined)
 ```
+
+### validator.worksWith
+
+Allows you to test your unknown data against a `Validator<T>`. If the `worksWith` function returns `true`, the data is guaranteed to be the correct type.
+
+```ts
+worksWith: (data: unknown) => data is value
+```
+
+```ts
+type Person = { name : string }
+
+const person : Validator<Person> =
+  Expect.object({
+    name: Expect.string
+  })
+```
+
+__✅ Pass Example__
+
+```ts
+const data = { name: "Ryan" }
+
+if (person.worksWith(data)) {
+  console.log(data.name)
+} else {
+  console.error('Not a person!')
+}
+```
+
+This code prints `"Ryan"`, because the data __passed__ validation.
+
+__🚫 Fail Example__
+
+```ts
+const data = { name: null }
+
+if (person.worksWith(data)) {
+  console.log(data.name)
+} else {
+  console.error('Not a person!')
+}
+```
+
+This code prints `"Not a person!"`, because the data __failed__ validation.
+
+
+
+### validator.run
+
+The `run` function is another way to handle the branching logic, or provide a fallback if you'd like.
+
+In the event of a failure, it also provides a `reason` that the JSON failed validation!
+
+```ts
+run: <T, U>(data: unknown, handlers: {
+    onPass: (value: value) => T,
+    onFail: (reason: Problem) => U
+  }) => T | U
+```
+
+```ts
+type Person = { name : string }
+
+const person : Validator<Person> =
+  Expect.object({
+    name: Expect.string
+  })
+```
+
+__✅ Pass Example__
+
+```ts
+person.run({ name: "Ryan" }, {
+  onPass: person => console.log(person.name),
+  onFail: reason => console.error(reason)
+})
+```
+
+This code prints `"Ryan"`, because the data __passed__ validation.
+
+__🚫 Fail Example__
+
+```ts
+person.run({ name: null }, {
+  onPass: person => console.log(person.name),
+  onFail: reason => console.error(reason)
+})
+```
+
+This code prints 
+```ts
+'Problem with field "name": Expecting a string, but got null.'
+```
+because the data __failed__ validation.
+
+
+## inspiration
+
+Like all good things in my life, I stole it from [Elm](https://elm-lang.org). There's a package called `elm/json` that converts raw JSON from the outside world into reliable values you can trust in your application.
+
+__Check out that package here:__
+
+https://package.elm-lang.org/packages/elm/json/latest/
