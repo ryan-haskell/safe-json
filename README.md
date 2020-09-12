@@ -1,7 +1,7 @@
 # ryannhg/safe-json
 > Safely handle unknown JSON in Typescript
 
-![jest](https://github.com/ryannhg/safe-json/workflows/jest/badge.svg)
+[![jest](https://github.com/ryannhg/safe-json/workflows/jest/badge.svg)](./tests)
 
 ## installation
 
@@ -82,18 +82,18 @@ Ready to try it out? Theres's not much to learn!
 
 __Creating Validators__
 
-- [Expect.boolean](#Expect.boolean)
-- [Expect.number](#Expect.number)
-- [Expect.string](#Expect.string)
-- [Expect.null](#Expect.null)
-- [Expect.object](#Expect.object)
-- [Expect.array](#Expect.array)
-- [Expect.optional](#Expect.optional)
+- [Expect.boolean](#Expectboolean)
+- [Expect.number](#Expectnumber)
+- [Expect.string](#Expectstring)
+- [Expect.null](#Expectnull)
+- [Expect.object](#Expectobject)
+- [Expect.array](#Expectarray)
+- [Expect.optional](#Expectoptional)
 
 __Validating JSON__
 
-- [validator.worksWith](#validator.worksWith)
-- [validator.run](#validator.run)
+- [validator.worksWith](#validatorworksWith)
+- [validator.run](#validatorrun)
 
 ### Expect.boolean
 
