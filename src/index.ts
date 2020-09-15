@@ -14,7 +14,7 @@ const toValidator: ValidatorHelper = (toResult) => ({
     const result = toResult(data)
     switch (result.kind) {
       case 'pass': return handlers.onPass(result.value)
-      case 'fail': return handlers.onFail(result.reason)
+      case 'fail': return handlers.onFail(Problem.toString(result.reason))
     }
   },
   worksWith: ((data: unknown) => toResult(data).kind === 'pass') as any
