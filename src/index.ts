@@ -1,6 +1,6 @@
-import { Problem } from "./problem.ts"
-import { Result } from "./result.ts"
-import { Utils } from "./utils.ts"
+import { Problem } from "./problem"
+import { Result } from "./result"
+import { Utils } from "./utils"
 
 
 type ToResult<value> =
