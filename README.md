@@ -215,7 +215,7 @@ Expect.optional : <T>(validator: Validator<T>) => Validator<T | undefined>
 const maybeNumber : Validator<number | undefined> =
   Expect.optional(Expect.number)
 
-maybeNumber.worksWith(123)        // ✅ 
+maybeNumber.worksWith(123)        // ✅ (123)
 maybeNumber.worksWith(456)        // ✅ (456)
 maybeNumber.worksWith(null)       // ✅ (undefined)
 maybeNumber.worksWith(undefined)  // ✅ (undefined)
